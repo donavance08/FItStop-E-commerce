@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Button, Card} from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
@@ -7,9 +7,12 @@ export default function CourseCard({course}){ //destructured props content to co
 	const {name, description, price} = course
 
 	// Using the state
+	// First element is a var and second is a function to modify the var
+
 	// initialize a 'count' state with a value of zero(0)
 	const [count, setCount] = useState(0)
 	const [seats, setSeat] = useState(15)
+	const [isOpen, setIsOpen] = useState(true)
 
 	function enroll(){
 		if(seats > 0) {
@@ -22,6 +25,15 @@ export default function CourseCard({course}){ //destructured props content to co
 
 	}
 
+	// Effects in React is just like side effects/effects where everytime something happens within the component, a function/condition runs. 
+	// You may also listen or watch a specific state for changes instead of watching/listening to the whole component
+	useEffect (() => {
+		if(seats === 0){
+			setIsOpen(false)
+		}
+	}, [seats])
+
+
 	return (
 		<Card> 
 		  <Card.Body>
@@ -31,6 +43,7 @@ export default function CourseCard({course}){ //destructured props content to co
 		    <Card.Text>PHP {price}</Card.Text>
 		    <Card.Text>Enrollees: {count}</Card.Text>
 		    <Card.Text>Seats Available: {seats}</Card.Text>
+		    <Card.Text>Is Open: {isOpen ? 'Yes' : 'No'}</Card.Text>
 		    <Button variant="primary" onClick={enroll}>Enroll Now!</Button>
 		    
 		  </Card.Body>

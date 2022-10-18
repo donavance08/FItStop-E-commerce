@@ -1,9 +1,10 @@
 import './App.css';
 import AppNavbar from './components/AppNavbar'
-import Home from './pages/Home'
-import Courses from  './pages/Courses'
+// import Home from './pages/Home'
+// import Courses from  './pages/Courses'
+// import Register from './pages/Register'
+import Login from './pages/Login'
 import { Container } from 'react-bootstrap'
-
 
 
 function App() { // function name should be the same as the fileName
@@ -11,8 +12,10 @@ function App() { // function name should be the same as the fileName
     <>
       <AppNavbar/>
       <Container>
-        <Home/>
+{/*        <Home/>
         <Courses/>
+        <Register/>*/}
+        <Login/>
       </Container>
 
     </>
