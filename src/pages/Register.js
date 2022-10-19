@@ -1,9 +1,14 @@
 import {Form, Button} from 'react-bootstrap'
 import {useState} from 'react'
-import {useEffect} from 'react'
+import {useEffect, useContext} from 'react'
+import {useNavigate,Navigate} from 'react-router-dom'
+import UserContext from '../UserContext'
 
 
 export default function Register(){
+
+	const {user, setUser} = useContext(UserContext)
+
 	const [email, setEmail] = useState('')
 	const [password1, setPassword1] = useState('')
 	const [password2, setPassword2] = useState('')
@@ -35,52 +40,56 @@ export default function Register(){
 	}, [email, password1, password2])
 
 	return (
-		<Form onSubmit={event => registerUser(event)}>
-			<Form.Group controlId="userEmail">
-				<Form.Label>Email address</Form.Label>
-				<Form.Control
-					type="email" 
-					placeholder="Enter email"  
-					value={email} 
-					onChange={event => setEmail(event.target.value)}
-					required 
-				/>
-				<Form.Text className="text-muted">
-					We'll never share your email with anyone else.
-				</Form.Text>
-			</Form.Group>
+			(user.email !== null)?
+				<Navigate to="/"/>
+			:
+				<Form onSubmit={event => registerUser(event)}>
+					<Form.Group controlId="userEmail">
+						<Form.Label>Email address</Form.Label>
+						<Form.Control
+							type="email" 
+							placeholder="Enter email"  
+							value={email} 
+							onChange={event => setEmail(event.target.value)}
+							required 
+						/>
+						<Form.Text className="text-muted">
+							We'll never share your email with anyone else.
+						</Form.Text>
+					</Form.Group>
 
-			<Form.Group controlId="password1">
-				<Form.Label>Password</Form.Label>
-				<Form.Control
-					required 
-					type="password" 
-					placeholder="Password"
-					value={password1} 
-					onChange={event => setPassword1(event.target.value)}
-				/>
-			</Form.Group>
+					<Form.Group controlId="password1">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							required 
+							type="password" 
+							placeholder="Password"
+							value={password1} 
+							onChange={event => setPassword1(event.target.value)}
+						/>
+					</Form.Group>
 
-			<Form.Group controlId="password2">
-				<Form.Label>Verify Password</Form.Label>
-				<Form.Control
-					required 
-					type="password" 
-					placeholder="Verify Password" 
-					value={password2} 
-					onChange={event => setPassword2(event.target.value)}
-				/>
-			</Form.Group>
-			{	isActive? 
-				<Button variant="primary" type="submit" id="submitBtn">
-					Submit
-				</Button>	
-				:
-				<Button disabled variant="primary" type="submit" id="submitBtn" >
-					Submit
-				</Button>	
-			}
-            	                
-		</Form>
+					<Form.Group controlId="password2">
+						<Form.Label>Verify Password</Form.Label>
+						<Form.Control
+							required 
+							type="password" 
+							placeholder="Verify Password" 
+							value={password2} 
+							onChange={event => setPassword2(event.target.value)}
+						/>
+					</Form.Group>
+					{	isActive? 
+						<Button variant="primary" type="submit" id="submitBtn">
+							Submit
+						</Button>	
+						:
+						<Button disabled variant="primary" type="submit" id="submitBtn" >
+							Submit
+						</Button>	
+					}
+				          	                
+				</Form>
+		
 	)
 }

@@ -1,4 +1,6 @@
 import './App.css';
+import { useState } from 'react'
+import { UserProvider } from './UserContext'
 import AppNavbar from './components/AppNavbar'
 import Home from './pages/Home'
 import Courses from  './pages/Courses'
@@ -11,23 +13,35 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
 
 function App() { // function name should be the same as the fileName
+  const [user, setUser] = useState({
+    email: localStorage.getItem('email')
+  })
+
+  const unsetUser = () => {
+    localStorage.clear()
+  }
+
+
   return (
     <>
-      <Router>
-        <AppNavbar/>
-        <Container>
-         {/*Initializes that dynamic routing will be involved*/}
-          <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/courses" element={<Courses/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/logout" element={<Logout/>}/>
-            <Route path="*" element={<ErrorPage/>}/>
-          </Routes>
-        </Container>
+      {/*Provides the user context throughout any component inside of it*/}
+      <UserProvider value={{user, setUser, unsetUser}}>
+      {/*Initializes that dynamic routing will be involved*/}
+        <Router>
+          <AppNavbar/>
+          <Container>
+            <Routes>
+              <Route path="/" element={<Home/>}/>
+              <Route path="/courses" element={<Courses/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/logout" element={<Logout/>}/>
+              <Route path="*" element={<ErrorPage/>}/>
+            </Routes>
+          </Container>
 
-      </Router>
+        </Router>
+      </UserProvider>
 
     </>
 
