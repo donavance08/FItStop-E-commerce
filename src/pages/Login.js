@@ -1,26 +1,29 @@
 import {Form, Button} from 'react-bootstrap'
 import {useState, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
+import AppNavbar from '../components/AppNavbar'
 
 export default function Login(){
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	
+	/*Initialize useNavigate*/
+	const navigate = useNavigate()
+
+
 	const [isActive, setIsActive] = useState(false)
 
-	// // ** Testing purposes*
-	// // console.log(email);
-	// // console.log(password1);
-	// // console.log(password2);
 
-	function loginUser(event){
+	function authenticate(event){
 		event.preventDefault()
+		localStorage.setItem('email', email)
 
-		// Field cleaner
-		setEmail("")
-		setPassword("")
+		setEmail('')
+		setPassword('')
 
-		alert("You are logged in!")
-
+		navigate('/')
 	}
+
 
 	useEffect(() => {
 		if(email !=="" && password !==""){
@@ -31,7 +34,7 @@ export default function Login(){
 	}, [email, password])
 
 	return (
-		<Form onSubmit={event => loginUser(event)} >
+		<Form onSubmit={event => authenticate(event)} >
 			<Form.Group controlId="userEmail">
 				<Form.Label>Email address</Form.Label>
 				<Form.Control
