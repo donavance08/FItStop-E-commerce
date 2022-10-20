@@ -17,6 +17,7 @@ export default function Register(){
 	const [password2, setPassword2] = useState('')
 	const [isActive, setIsActive] = useState(false)
 
+	const navigate = useNavigate()
 
 	function registerUser(event){
 		event.preventDefault()
@@ -80,6 +81,9 @@ export default function Register(){
 					text: 'Registration Successsful!'
 				})
 
+				navigate('/login')
+
+
 			})
 
 		})
@@ -95,87 +99,99 @@ export default function Register(){
 		}
 	}, [email, password1, password2, firstName, lastName, mobileNumber])
 
-	return (
-		(typeof user.email !== "undefined")?
-			<Navigate to="/"/>
+	console.log(`email is ${user.email}`);
+	
+	return ( 
+		(user.email !== undefined)?
+			<Navigate to="/courses"/>
 		:
 			<Form onSubmit={event => registerUser(event)}>
-				<Form.Group controlId="firstName">
-					<Form.Label>First Name:</Form.Label>
-					<Form.Control
-						type="text" 
-						placeholder="Enter first name"  
-						value={firstName} 
-						onChange={event => setFirstName(event.target.value)}
-						required 
-					/>
-				</Form.Group>
-				<Form.Group controlId="lastName">
-					<Form.Label>Last Name:</Form.Label>
-					<Form.Control
-						type="text" 
-						placeholder="Enter Last Name"  
-						value={lastName} 
-						onChange={event => setLastName(event.target.value)}
-						required 
-					/>
-				</Form.Group>
-				<Form.Group controlId="mobileNumber">
-					<Form.Label>Contact Number:</Form.Label>
-					<Form.Control
-						type="text" 
-						placeholder="+631254585896"  
-						value={mobileNumber} 
-						onChange={event => setMobileNumber(event.target.value)}
-						required 
-					/>
-				</Form.Group>
-				<Form.Group controlId="userEmail">
-					<Form.Label>Email address</Form.Label>
-					<Form.Control
-						type="email" 
-						placeholder="Enter email"  
-						value={email} 
-						onChange={event => setEmail(event.target.value)}
-						required 
-					/>
-					<Form.Text className="text-muted">
-						We'll never share your email with anyone else.
-					</Form.Text>
-				</Form.Group>
+			<Form.Group controlId="firstName">
+				<Form.Label>First Name:</Form.Label>
+				<Form.Control
+					type="text" 
+					placeholder="Enter first name"  
+					value={firstName} 
+					onChange={event => setFirstName(event.target.value)}
+					required 
+				/>
+			</Form.Group>
+			<Form.Group controlId="lastName">
+				<Form.Label>Last Name:</Form.Label>
+				<Form.Control
+					type="text" 
+					placeholder="Enter Last Name"  
+					value={lastName} 
+					onChange={event => setLastName(event.target.value)}
+					required 
+				/>
+			</Form.Group>
+			<Form.Group controlId="mobileNumber">
+				<Form.Label>Contact Number:</Form.Label>
+				<Form.Control
+					type="text" 
+					placeholder="+631254585896"  
+					value={mobileNumber} 
+					onChange={event => setMobileNumber(event.target.value)}
+					required 
+				/>
+			</Form.Group>
+			<Form.Group controlId="userEmail">
+				<Form.Label>Email address</Form.Label>
+				<Form.Control
+					type="email" 
+					placeholder="Enter email"  
+					value={email} 
+					onChange={event => setEmail(event.target.value)}
+					required 
+				/>
+				<Form.Text className="text-muted">
+					We'll never share your email with anyone else.
+				</Form.Text>
+			</Form.Group>
 
-				<Form.Group controlId="password1">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						required 
-						type="password" 
-						placeholder="Password"
-						value={password1} 
-						onChange={event => setPassword1(event.target.value)}
-					/>
-				</Form.Group>
+			<Form.Group controlId="password1">
+				<Form.Label>Password</Form.Label>
+				<Form.Control
+					required 
+					type="password" 
+					placeholder="Password"
+					value={password1} 
+					onChange={event => setPassword1(event.target.value)}
+				/>
+			</Form.Group>
 
-				<Form.Group controlId="password2">
-					<Form.Label>Verify Password</Form.Label>
-					<Form.Control
-						required 
-						type="password" 
-						placeholder="Verify Password" 
-						value={password2} 
-						onChange={event => setPassword2(event.target.value)}
-					/>
-				</Form.Group>
-				{	isActive? 
-					<Button variant="primary" type="submit" id="submitBtn">
-						Submit
-					</Button>	
-					:
-					<Button disabled variant="primary" type="submit" id="submitBtn" >
-						Submit
-					</Button>	
-				}
-			          	                
-			</Form>
-		
+			<Form.Group controlId="password2">
+				<Form.Label>Verify Password</Form.Label>
+				<Form.Control
+					required 
+					type="password" 
+					placeholder="Verify Password" 
+					value={password2} 
+					onChange={event => setPassword2(event.target.value)}
+				/>
+			</Form.Group>
+			{	isActive? 
+				<Button variant="primary" type="submit" id="submitBtn">
+					Submit
+				</Button>	
+				:
+				<Button disabled variant="primary" type="submit" id="submitBtn" >
+					Submit
+				</Button>	
+			}
+		          	                
+		</Form>
+
 	)
+	// )if(typeof user.email !== "undefined"){
+	// 	return <Navigate to="/login"/>
+	// } else if(){
+		
+	// } else {
+	// 	return (
+			
+	// 	)
+	// }
+		
 }

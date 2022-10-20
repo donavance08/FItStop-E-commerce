@@ -2,6 +2,7 @@ import CourseCard from '../components/CourseCard'
 import { useEffect, useState } from 'react' 
 
 export default function Courses(){
+	console.log(localStorage);
 	const [courses, setCourses] = useState([]);
 
 	useEffect(() => {

@@ -24,13 +24,18 @@ export default function Login(){
 		})	
 		.then(response => response.json())
 		.then(result => {
-
+			console.log(result);
 			setUser({
 				id: result._id,
-				isAdmin: result.isAdmin
+				isAdmin: result.isAdmin,
+				email: result.email
 			})
+
+	
 		});
 	};
+
+			console.log(`user is ${user.email}`);
 
 	function authenticate(event){
 		event.preventDefault()
