@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react'
 import {Button, Card} from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 export default function CourseCard({course}){ //destructured props content to course
 	// further destructured each component of the course object
-	const {name, description, price} = course
+	const {name, description, price, _id} = course
 
 	// Using the state
 	// First element is a var and second is a function to modify the var
@@ -41,11 +42,7 @@ export default function CourseCard({course}){ //destructured props content to co
 		    <Card.Text>{description}</Card.Text>
 		    <Card.Subtitle>Price</Card.Subtitle>
 		    <Card.Text>PHP {price}</Card.Text>
-		    <Card.Text>Enrollees: {count}</Card.Text>
-		    <Card.Text>Seats Available: {seats}</Card.Text>
-		    <Card.Text>Is Open: {isOpen ? 'Yes' : 'No'}</Card.Text>
-		    <Button variant="primary" onClick={enroll}>Enroll Now!</Button>
-		    
+			<Link className="btn btn-primary" to={`/courses/${_id}`}>Details</Link>		    
 		  </Card.Body>
 		</Card>
 	)  

@@ -3,33 +3,68 @@ import {useState, useEffect, useContext} from 'react'
 import {useNavigate, Navigate} from 'react-router-dom'
 import AppNavbar from '../components/AppNavbar'
 import UserContext from '../UserContext'
+import Swal from 'sweetalert2'
 
 export default function Login(){
 	const {user, setUser} = useContext(UserContext)
+
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	
 	/*Initialize useNavigate*/
 	const navigate = useNavigate()
 
-
 	const [isActive, setIsActive] = useState(false)
 
+	const retrieveUser = (token) => {
+		fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		})	
+		.then(response => response.json())
+		.then(result => {
+
+			setUser({
+				id: result._id,
+				isAdmin: result.isAdmin
+			})
+		});
+	};
 
 	function authenticate(event){
 		event.preventDefault()
-		localStorage.setItem('email', email)
 
-		setUser({
-			email: localStorage.getItem('email')
+		fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: email,
+				password: password
+			})
 		})
+		.then(response => response.json())
+		.then(result => {
+			if(typeof result.accessToken !== "undefined"){
+				localStorage.setItem('token', result.accessToken)
+				retrieveUser(result.accessToken)
 
-		setEmail('')
-		setPassword('')
-
-		// navigate('/')
+				Swal.fire({
+					title: 'Login Successful!',
+					icon: 'success',
+					text: 'Welcome to Zuitt!'
+				})
+			} else{
+				Swal.fire({
+					title: 'Authentication Failed!',
+					icon: 'error',
+					text: 'Pasensya ka na, sa kathang isip kong ito'
+				})
+			}
+		})
 	}
-
 
 	useEffect(() => {
 		if(email !=="" && password !==""){
@@ -40,8 +75,8 @@ export default function Login(){
 	}, [email, password])
 
 	return (
-		// return(
-			(user.email !== null)?
+
+			(user.id !== null)?
 				<Navigate to="/courses"/>
 			:
 				<Form onSubmit={event => authenticate(event)} >
@@ -77,6 +112,6 @@ export default function Login(){
 						</Button>	
 					}	                
 				</Form>	
-		// );
+
 	);
 };

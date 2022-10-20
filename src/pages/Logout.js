@@ -12,10 +12,10 @@ export default function Logout(){
 	// An effect which removes the user email from the global user state taht comes from the context
 	useEffect(() => {
 		setUser({
-			email: null
+			id: null
 		})
 	})
-	
+
 	return (
 		<Navigate to="/"/>
 	)
