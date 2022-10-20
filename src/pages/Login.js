@@ -35,7 +35,6 @@ export default function Login(){
 		});
 	};
 
-			console.log(`user is ${user.email}`);
 
 	function authenticate(event){
 		event.preventDefault()

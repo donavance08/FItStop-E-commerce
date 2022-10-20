@@ -98,8 +98,6 @@ export default function Register(){
 			setIsActive(false)
 		}
 	}, [email, password1, password2, firstName, lastName, mobileNumber])
-
-	console.log(`email is ${user.email}`);
 	
 	return ( 
 		(user.email !== undefined)?
