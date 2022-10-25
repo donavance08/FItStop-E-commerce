@@ -1,41 +1,35 @@
 import {Row, Col, Card} from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 
 export default function Highlights(){
 	return(
 		<Row className="mt-3 mb-3">
 			<Col xs={12} md={4}>
-				<Card className="cardHighlight p-3">
-					<Card.Body>
-						<Card.Title className="d-flex justify-content-center">
-							<h2>Easy</h2>
+				<Card className="cardHighlight " >
+					<Card.Body className="p-0" as={NavLink} to={"/products"}>
+						<Card.Img variant="top" style={{height:"30vh"}} src="./images/strength.jpg" />
+						{/*<Card.Title className="d-flex justify-content-center">
+							<h2>Strength</h2>
 						</Card.Title>
 						<Card.Text>
-							All you need for an occasion, or a simple meal in a click of a button. No more searching for a recipe or missing an ingredient when shopping.
-						</Card.Text>
+							Increasing your <span>"Strength"</span> will make it easy to get fit, and here in FitStop, we can offer you a wide array of equipments to help you increase your strength in the fastest way possible. 
+						</Card.Text>*/}
 					</Card.Body>
 				</Card>
 			</Col>
 			<Col xs={12} md={4}>
-				<Card className="cardHighlight p-3">
-					<Card.Body>
-						<Card.Title className="d-flex justify-content-center">
-							<h2>Cheap</h2>
-						</Card.Title>
-						<Card.Text>
-							All ingredients will be exact with no wastage, therefore, no extra money spent on ingredients you will just throw away, or stash forever.
-						</Card.Text>
+				<Card className="cardHighlight">
+					<Card.Body className="p-0" as={NavLink} to={"/products"}>
+						<Card.Img variant="top" style={{height:"30vh"}} src="./images/endurance.jpg" />
+						
 					</Card.Body>
 				</Card>
 			</Col>
 			<Col xs={12} md={4}>
-				<Card className="cardHighlight p-3">
-					<Card.Body>
-						<Card.Title className="d-flex justify-content-center">
-							<h2>Fast</h2>
-						</Card.Title>
-						<Card.Text>
-							No need to waste time looking for every ingredient. Plus, all deliveries are done within 30 min to ensure all are fresh.
-						</Card.Text>
+				<Card className="cardHighlight">
+					<Card.Body className="p-0" as={NavLink} to={"/products"}>
+						<Card.Img variant="top" style={{height:"30vh"}} src="./images/flexibility.jpg" />
+						
 					</Card.Body>
 				</Card>
 			</Col>

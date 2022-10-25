@@ -7,3 +7,20 @@
 .cardHighlight{
   min-height: 100%;
 }
+
+span{
+  color: Red
+}
+
+.Navbar{
+  background-color: black;
+  color: white;
+}
+
+.btn-tertiary{
+  background: #54b435 !important;
+  border-width: 0px !important;
+  color: #000000 !important;
+}
+
+

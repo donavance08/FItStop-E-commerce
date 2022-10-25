@@ -1,15 +1,16 @@
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Container} from 'react-bootstrap'
 import {useState, useEffect, useContext} from 'react'
 import {useNavigate, Navigate} from 'react-router-dom'
-import AppNavbar from '../components/AppNavbar'
 import UserContext from '../UserContext'
 import Swal from 'sweetalert2'
+import Loading from '../components/Loading'
 
 export default function Login(){
 	const {user, setUser} = useContext(UserContext)
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
 	
 	/*Initialize useNavigate*/
 	const navigate = useNavigate()
@@ -17,7 +18,7 @@ export default function Login(){
 	const [isActive, setIsActive] = useState(false)
 
 	const retrieveUser = (token) => {
-		fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
+		fetch(`${process.env.REACT_APP_API_URL}/users/account/details`, {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -38,6 +39,8 @@ export default function Login(){
 
 	function authenticate(event){
 		event.preventDefault()
+
+		setIsLoading(true)
 
 		fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
 			method: 'POST',
@@ -60,6 +63,8 @@ export default function Login(){
 					icon: 'success',
 					text: 'Welcome to Zuitt!'
 				})
+
+				navigate('/')
 			} else{
 				Swal.fire({
 					title: 'Authentication Failed!',
@@ -67,6 +72,8 @@ export default function Login(){
 					text: 'Pasensya ka na, sa kathang isip kong ito'
 				})
 			}
+
+			setIsLoading(false)
 		})
 	}
 
@@ -79,12 +86,15 @@ export default function Login(){
 	}, [email, password])
 
 	return (
-
+		isLoading?
+			<Loading/>
+		:
 			(user.id !== null)?
-				<Navigate to="/courses"/>
+				<Navigate to="/Products"/>
 			:
+			<Container className="col-md-7 col-lg-5">	
 				<Form onSubmit={event => authenticate(event)} >
-					<Form.Group controlId="userEmail">
+					<Form.Group controlId="userEmail" className="mt-2">
 						<Form.Label>Email address</Form.Label>
 						<Form.Control
 							type="email" 
@@ -95,7 +105,7 @@ export default function Login(){
 						/>
 					</Form.Group>
 
-					<Form.Group controlId="password">
+					<Form.Group controlId="password" className="mt-2">
 						<Form.Label>Password</Form.Label>
 						<Form.Control
 							required 
@@ -105,17 +115,18 @@ export default function Login(){
 							onChange={event => setPassword(event.target.value)}
 						/>
 					</Form.Group>
-
-					{	isActive? 
-						<Button variant="primary" type="submit" id="submitBtn">
-							Submit
-						</Button>	
-						:
-						<Button disabled variant="primary" type="submit" id="submitBtn" >
-							Submit
-						</Button>	
-					}	                
+					<Container className="mt-2 d-flex justify-content-center">	
+						{	isActive? 
+							<Button variant="danger" type="submit" id="submitBtn">
+								Submit
+							</Button>
+							:
+							<Button disabled variant="secondary" type="submit" id="submitBtn" >
+								Submit
+							</Button>
+						}	  
+					</Container>              
 				</Form>	
-
+			</Container>
 	);
 };
