@@ -8,7 +8,7 @@ import AddToCart from '../common functions/AddToCart'
 
 export default function ProductCard({product}){ //destructured props content to course
 	// further destructured each component of the course object
-	const {name, description, price, _id} = product
+	const {name, description, price, _id, imageLink} = product
 	const navigate = useNavigate()
 	// Using the state
 	// First element is a var and second is a function to modify the var
@@ -38,6 +38,7 @@ export default function ProductCard({product}){ //destructured props content to 
 
 	return (
 			<Card className="mt-2 px-2 d-flex" style={styles.cardCnt}> 
+				<Card.Img variant="top" src={imageLink} />
 				<Card.Body className="d-flex flex-column">
 					<a href={`/products/${_id}`} style={styles.productName}><Card.Text>{name}</Card.Text></a>
 					<Card.Text className=" mt-auto">PHP {price}</Card.Text>

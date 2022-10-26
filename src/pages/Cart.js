@@ -98,7 +98,7 @@ export default function Cart(){
                 <hr/>	
                 <Row>
                 	<Col></Col>
-                	<Col md="auto">Total:</Col>
+                	<Col md="auto" className="me-auto">Total:</Col>
                 	<Col lg="1">{total}</Col>
                 </Row>
 

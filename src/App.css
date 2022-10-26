@@ -18,9 +18,10 @@ span{
 }
 
 .btn-tertiary{
-  background: #54b435 !important;
+  background: #00d100 !important;
   border-width: 0px !important;
-  color: #000000 !important;
+  color: #ffffff !important;
+  text-align-last: "true"
 }
 
 

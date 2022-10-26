@@ -38,7 +38,7 @@ export default function CartItem({product}){
 			</Col>
 			<Col className="col-lg-1 d-flex flex-column">
 								
-						<p className="ms-auto me-5">{price}</p>
+						<p align="right" className="ms-auto me-5">{price}</p>
 							<p className="ms-auto me-5">x{quantity}</p>
 					<p className="ms-auto me-5">{subtotal}</p>
 				
