@@ -1,15 +1,23 @@
+@font-face {
+  font-family: 'amazon ember';
+  src: local('ember'), url(./fonts/ember/AmazonEmber_RgIt.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'amazon ember productName';
+    font-weight: 300;
+  src: local('ember'), url(./fonts/ember/AmazonEmber_RgIt.ttf) format('truetype');
+}
+
+
 *{
   margin:  0;
   padding: 0;
   box-sizing:  border-box;
 }
 
-.cardHighlight{
-  min-height: 100%;
-}
-
-span{
-  color: Red
+.pageHeader{
+    font-family: ember, sans-serif;
 }
 
 .Navbar{
@@ -17,11 +25,105 @@ span{
   color: white;
 }
 
-.btn-tertiary{
-  background: #00d100 !important;
-  border-width: 0px !important;
-  color: #ffffff !important;
-  text-align-last: "true"
+.nav-tabs, .nav-link {
+  color:  black ;
+}
+
+.nav-tabs, .nav-link.active, .nav:hover{
+  color:  green !important;
+}
+
+.navLinks{
+  color:  white !important;
+}
+
+.cardHighlight{
+  min-height: 100%;
+}
+
+span{
+  color: blue
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:disabled{
+  font-family: ember, sans-serif;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  background: #00d100;
+  border-width: 0px ;
+  color: #ffffff;
+}
+.btn-primary:hover{
+    box-shadow:  1px 1px 5px 0px rgba(0,0,0,0.5);
+}
+
+.cardImg{
+  width:  100%;
+  height:  12vw;
+  object-fit: cover;
+}
+
+.card:hover{
+  box-shadow:  3px 3px 10px 0px rgba(0,0,0);
+}
+.productName, .productName:hover  {
+    font-family: ember, sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+   }
+
+.productName2{
+    font-family: ember, sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
 }
 
 
+.productPrice, .productPrice:hover{
+    font-family: ember, sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+}
+
+.buttonLink{
+    text-decoration: none;
+}
+
+.productViewName{
+   font-family: ember, sans-serif;
+   font-weight: 500;
+
+}
+
+.starRating{
+  color:  orange;
+}
+
+
+.squareButton{
+  width: 30px;
+  height:  30px;
+  text-align: center;
+  justify-content: center;
+  margin:  0px 6px;
+}
+
+.cartImgParent{
+  height: 120px;
+}
+.fullPage{
+  height:  80vh;
+}
+
+/* || ORDERS PAGE */
+
+.orderTitle{
+      font-family: ember, sans-serif;
+}
+
+.row>*{
+  padding:  0px !important;
+}

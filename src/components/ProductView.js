@@ -1,89 +1,101 @@
-import { useState, useEffect, useContext } from 'react';
-import { Container, Card, Button, Row, Col } from 'react-bootstrap';
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import UserContext from '../UserContext'
-import Swal from 'sweetalert2'
 import AddToCart from '../common functions/AddToCart'
+import Loading from '../components/Loading'
+import StarsRating from './StarsRating'
+import Swal from 'sweetalert2'
+import UserContext from '../UserContext'
+import { useContext, useEffect, useState  } from 'react';
+import { Button,Card, Col, Container, Row  } from 'react-bootstrap';
+import { Link, useNavigate, useParams  } from 'react-router-dom'
 
-export default function CourseView() {
+export default function ProductView() {
 	const {productId} = useParams();
 
 	const {user} = useContext(UserContext);
 	const navigate = useNavigate();
 
-	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
+	const [imageLink, setImageLink] = useState("");
+	const [isAvailable, setIsAvailable] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+	const [name, setName] = useState("");
 	const [price, setPrice] = useState(0);
 	const [quantity, setQuantity] = useState(0);
+	const [stars, setStars] = useState(0);
 
-	// const addToCart = (productId) => {
-	// 	fetch(`${process.env.REACT_APP_API_URL}/cart/add/${productId}`, {
-	// 		method: 'PATCH',
-	// 		headers: {
-	// 			"Content-type": "application/json",
-	// 			"Authorization": `Bearer ${localStorage.getItem('token')}`
-	// 		},
-	// 		body: JSON.stringify({
-	// 			productId: productId
-	// 		})
-	// 	})
-	// 	.then(response => response.json())
-	// 	.then(result => {
-	// 		if(result){
-	// 			Swal.fire({
-	// 				title: "Success",
-	// 				icon: "success",
-	// 				text: "You have addToCarted successfully!"
-	// 			})
 
-	// 			navigate('/products')
-
-	// 		}else {
-	// 			Swal.fire({
-	// 				title: "Something went wrong",
-	// 				icon: "error",
-	// 				text: "Please try again :("
-	// 			})
-	// 		}
-
-	// 	});
-	// };
 
 	useEffect(() => {		
+
+		setIsLoading(true)
 		fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`)
 		.then(response => response.json())
 		.then(result => {	
 					
-			setName(result.product.name)
-			setDescription(result.product.description)
-			setPrice(result.product.price)
-			setQuantity(result.product.quantity)
+			setName(result.product.name);
+			setDescription(result.product.description);
+			setPrice(result.product.price);
+			setQuantity(result.product.quantity);
+			setImageLink(result.product.imageLink);
+			setStars(result.product.starsRating);
+
+			setIsLoading(false)
 		})
-	}, [productId]);
+
+		if(quantity > 0) setIsAvailable(true)
+	}, [quantity]);
 
 	return(
-		<Container className="mt-5">
-			<Row>
-				<Col lg={{ span: 6, offset: 3 }}>
-					<Card>
-						<Card.Body>
-							<Card.Title  className="text-center">{name}</Card.Title>
-							{/* <Card.Subtitle>Description:</Card.Subtitle> */}
-							<Card.Text>{description}</Card.Text>
-							<Card.Subtitle>Price:</Card.Subtitle>
-							<Card.Text>PhP {price}</Card.Text>
-							<Card.Subtitle>Items remaining:</Card.Subtitle>
-							<Card.Text>{quantity} pcs</Card.Text>
-							{/* { 	user.id !== null ? */}
-									<Button variant="primary" onClick={() => AddToCart(productId, name)}>add to cart </Button>
-								 {/* : */}
-									{/* <Link className="btn btn-danger btn-block" to="/login">add to cart</Link> */}
-							{/* } */}
-							
-						</Card.Body>		
-					</Card>
-				</Col>
-			</Row>
-		</Container>
-	)
-}	
+		isLoading? 
+			<Loading/>
+		:
+			<Container className="d-flex mt-5 col-md-10">
+				<Row>
+					<Col className="col-lg-5">
+						<img 
+						src={imageLink} 
+						alt=""
+						width="100%"
+						/>
+
+					</Col>
+					<Col>
+						<h2 className="productViewName">{name}</h2>	
+						<StarsRating stars={stars}/>
+						<h1>PHP {price.toLocaleString('en-US')}</h1>
+						<h5>Description:</h5>
+						<p>{description}</p>
+
+						<Col className="me-auto">
+							{isAvailable? 
+								<span>In Stock</span>
+							:
+								<span>Out of Stock!</span>
+							}
+						</Col>
+
+						<Col className="mt-3">
+							{localStorage.token?
+								<Button 
+									disabled={!isAvailable}
+									className="btn btn-primary" 									
+									onClick={() => AddToCart(productId, name)}
+								>
+									ADD TO CART
+								</Button>	
+							: 
+								<Button 
+									disabled={!isAvailable}
+									className="btn btn-primary " 
+									onClick={() => navigate(`/login/productView/${productId}`)}
+								>
+									ADD TO CART
+								</Button>	
+
+							}
+						</Col>
+	
+					</Col>
+				</Row>
+			</Container>
+	);
+};	

@@ -4,6 +4,7 @@ import { UserProvider } from './UserContext'
 import AppNavbar from './components/AppNavbar'
 import Cart from './pages/Cart'
 import Home from './pages/Home'
+import Orders from './pages/Orders'
 import Products from  './pages/Products'
 import ProductView from './components/ProductView'
 import Register from './pages/Register'
@@ -18,7 +19,6 @@ function App() { // function name should be the same as the fileName
     id: localStorage.getItem('id')
   })
 
-  console.log(user.id);
   const unsetUser = () => {
     localStorage.clear()
   }
@@ -33,17 +33,19 @@ function App() { // function name should be the same as the fileName
           <AppNavbar/>
           <Container>
             <Routes>
+              <Route path="*" element={<ErrorPage/>}/>
               <Route path="/" element={<Home/>}/>
+              <Route path="/cart" element={user.id? <Cart/> : <Login from="/cart"/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/login/:fromPage" element={<Login/>}/>
+              <Route path="/login/:fromPage/:id" element={<Login/>}/>
+              <Route path="/logout" element={<Logout/>}/>
+              <Route path="/orders" element={user.id? <Orders/> : <Login from="/orders"/>}/>
               <Route path="/products" element={<Products/>}/>
               <Route path="/products/:productId" element={<ProductView/>}/>
-              <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
-              <Route path="/logout" element={<Logout/>}/>
-              <Route path="/cart" element={user.id? <Cart/> : <Navigate to="/login"/>}/>
-              <Route path="*" element={<ErrorPage/>}/>
-            </Routes>
+              </Routes>
           </Container>
-
         </Router>
       </UserProvider>
 

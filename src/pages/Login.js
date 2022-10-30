@@ -1,13 +1,15 @@
+import AddToCart from '../common functions/AddToCart'
 import {Form, Button, Container} from 'react-bootstrap'
 import {useState, useEffect, useContext} from 'react'
-import {useNavigate, Navigate} from 'react-router-dom'
+import {useNavigate, Navigate, useParams} from 'react-router-dom'
 import UserContext from '../UserContext'
 import Swal from 'sweetalert2'
 import Loading from '../components/Loading'
 
 export default function Login(){
-	const {user, setUser} = useContext(UserContext)
+	const {fromPage, id} = useParams()
 
+	const {user, setUser} = useContext(UserContext)
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +27,6 @@ export default function Login(){
 		})	
 		.then(response => response.json())
 		.then(result => {
-			console.log(result);
 			setUser({
 				id: result._id,
 				isAdmin: result.isAdmin,
@@ -58,18 +59,29 @@ export default function Login(){
 				localStorage.setItem('token', result.accessToken)
 				retrieveUser(result.accessToken)
 
-				Swal.fire({
-					title: 'Login Successful!',
-					icon: 'success',
-					text: 'Welcome to Zuitt!'
-				})
+				if(fromPage === "productView" && id){
+					AddToCart(id, "hello")
+					navigate(`/products/${id}`, {replace:true})
+						
+				} else if (fromPage && id){
+					AddToCart(id, "hello")
+					navigate(`/${fromPage}`, {replace:true})
+				} else {
 
-				navigate('/')
+					Swal.fire({
+						title: 'Login Successful!',
+						icon: 'success',
+						text: 'Welcome to FitStop!'
+					})
+
+					navigate(`/`, {replace:true})
+				}
+
 			} else{
 				Swal.fire({
 					title: 'Authentication Failed!',
 					icon: 'error',
-					text: 'Pasensya ka na, sa kathang isip kong ito'
+					text: 'Please try again!'
 				})
 			}
 
@@ -90,7 +102,7 @@ export default function Login(){
 			<Loading/>
 		:
 			(user.id !== null)?
-				<Navigate to="/Products"/>
+				<Navigate to={`/${fromPage}`}/>
 			:
 			<Container className="col-md-7 col-lg-5">	
 				<Form onSubmit={event => authenticate(event)} >

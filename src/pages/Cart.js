@@ -4,13 +4,14 @@ import userEvent from '@testing-library/user-event'
 import { Button, Col, Container, Modal, Row } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import {useNavigate, Navigate} from 'react-router-dom'
+import { UserProvider } from '../UserContext'
 
 function CheckoutConfirmation(props) {
 	const navigate = useNavigate()
   return (
     <Modal
       {...props}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -29,15 +30,15 @@ function CheckoutConfirmation(props) {
         <Button onClick={props.onHide}>No</Button>
         <Button onClick={() => {
         	props.onHide()
-        	checkout()
-        	navigate("/")
+        	checkout(navigate)
         }}>Checkout</Button>
       </Modal.Footer>
     </Modal>
   );
-}
+};
 
-function checkout(){
+function checkout(navigate){
+
 	fetch(`${process.env.REACT_APP_API_URL}/cart/checkout`, {
 			method: "PATCH",
 			headers: {
@@ -58,18 +59,29 @@ function checkout(){
 				Swal.fire({
 					title: 'Checkout Failed!',
 					icon: 'error',
+					text: `Not enough ${result.name} in inventory`
 				})
 			}
-	})
-}
+	});
+
+	navigate('/');
+
+};
+
+function navigateToProducts(navigate){
+	navigate('/products');
+};
 
 export default function Cart(){
-    const [products, setProducts] = useState([])
-    const [total, setTotal] = useState(0)
-    const [modalShow, setModalShow] = useState(false)
+    const [products, setProducts] = useState([]);
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [total, setTotal] = useState(0);
+    const [modalShow, setModalShow] = useState(false);
+    const navigate = useNavigate();
+
+
 
 	useEffect(() => {
-        
 		fetch(`${process.env.REACT_APP_API_URL}/cart`, {
 			headers:{
 				'Content-Type': 'application/json',
@@ -79,34 +91,47 @@ export default function Cart(){
 		.then(response => response.json())
 		.then(cart => {
 			setTotal(cart.total)
-           
-            setProducts(
-                cart.products.map(product => {
-                    return (
-                        <CartItem key={product._id} product={product}/>
-                    )
-                })
+      setProducts(
+        cart.products.map(product => {
+            return (
+                <CartItem key={product._id} product={product}/>
             )
-		})
-	},[])
+        })
+     	)     
+            
+		});
+
+		setIsUpdated(false)
+	},[isUpdated]);
 
     return(
-            <>
-            <Container className="col-lg-10">
 
+    	<UserProvider value={{isUpdated, setIsUpdated}}>
+    		
+    	{total > 0?
+            <>
+
+            <Container className="col-lg-10">
+            	<h2 className="pageHeader">Shopping Cart</h2>
             	  {products}
                 <hr/>	
                 <Row>
-                	<Col></Col>
-                	<Col md="auto" className="me-auto">Total:</Col>
-                	<Col lg="1">{total}</Col>
+                	<Col className="pe-0"></Col>
+                	<Col md="auto" className="ms-auto me-auto">
+                		<Row>Total:</Row>
+                		<Row> 
+                			<Button variant="primary" onClick={() => setModalShow(true)}>Checkout</Button>
+                		</Row>
+                		
+                	</Col>
+                	<Col lg="1">{total.toLocaleString('en-US')}</Col>
                 </Row>
 
 
 
                 <Row>	
                 	<Col className="ms-auto d-inline-block col-lg-2">	
-        	         	<Button variant="primary" onClick={() => setModalShow(true)}>Checkout</Button>
+        	         	
                 	</Col>
                 </Row>
                 
@@ -119,5 +144,20 @@ export default function Cart(){
 
                 
             </>
+
+           :
+
+           <Row className="fullPage d-flex align-items-center ">
+           	<div className="m-auto justify-content-center">
+           		<div className="d-flex">
+           				<h2 className="pageHeader m-auto">Your cart is currently empty!</h2>
+           		</div>
+           		<div className="d-flex justify-content-center mt-2">
+	           		<Button className="btn-primary" onClick={() => navigateToProducts(navigate)} >Start Shopping</Button>
+	           	</div>
+           	</div>
+           </Row>
+         }
+        	</UserProvider>
     ) 
 }
