@@ -30,7 +30,8 @@ export default function Login(){
 			setUser({
 				id: result._id,
 				isAdmin: result.isAdmin,
-				email: result.email
+				email: result.email,
+				accessType: result.accessType
 			})
 
 	
@@ -129,11 +130,11 @@ export default function Login(){
 					</Form.Group>
 					<Container className="mt-2 d-flex justify-content-center">	
 						{	isActive? 
-							<Button variant="danger" type="submit" id="submitBtn">
+							<Button className="btn btn-primary" type="submit" id="submitBtn">
 								Submit
 							</Button>
 							:
-							<Button disabled variant="secondary" type="submit" id="submitBtn" >
+							<Button disabled className="btn btn-primary" type="submit" id="submitBtn" >
 								Submit
 							</Button>
 						}	  

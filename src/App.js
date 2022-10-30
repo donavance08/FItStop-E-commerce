@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react'
 import { UserProvider } from './UserContext'
 import AppNavbar from './components/AppNavbar'
+import AddProductView from './components/AddProductView'
 import Cart from './pages/Cart'
 import Home from './pages/Home'
 import Orders from './pages/Orders'
@@ -11,12 +12,13 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Logout from './pages/Logout'
 import ErrorPage from './pages/ErrorPage'
-import { CarouselItem, Container } from 'react-bootstrap'
-import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
+import EditProductView from './components/EditProductView'
+import { Container } from 'react-bootstrap'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() { // function name should be the same as the fileName
   const [user, setUser] = useState({
-    id: localStorage.getItem('id')
+    id: localStorage.getItem('id'),
   })
 
   const unsetUser = () => {
@@ -44,6 +46,9 @@ function App() { // function name should be the same as the fileName
               <Route path="/products" element={<Products/>}/>
               <Route path="/products/:productId" element={<ProductView/>}/>
               <Route path="/register" element={<Register/>}/>
+              <Route path="/register/vendor" element={<Register type="vendor"/>}/>
+              <Route path="/vendor/product/edit/:id" element={<EditProductView/>}/>
+              <Route path="/vendor/product/add" element={<AddProductView/>}/>
               </Routes>
           </Container>
         </Router>

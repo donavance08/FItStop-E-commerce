@@ -1,16 +1,17 @@
-import {useState, useEffect} from 'react'
-import { Button, Card, Row, Col, Container} from 'react-bootstrap'
+import { useContext, useState} from 'react'
+import { Button, Card, Col } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import { Link, useNavigate} from 'react-router-dom'
+import {  useNavigate} from 'react-router-dom'
 import AddToCart from '../common functions/AddToCart'
-import Login from '../pages/Login'
-import '../App.css';
 
+import '../App.css';
+import UserContext from '../UserContext'
 
 export default function ProductCard(props){ 
 	const {from, product} = props
-	const {name, description, price, _id, imageLink} = product
-	const [isAvailable, setIsAvailable] = useState(product.quantity > 0)
+	const {name, price, _id, imageLink} = product
+	const {user} = useContext(UserContext)
+	const [isAvailable] = useState(product.quantity > 0)
 	const navigate = useNavigate()
 
 	return (
@@ -30,13 +31,16 @@ export default function ProductCard(props){
 							className="btn btn-primary d-flex align-items-center justify-content-center" 
 							onClick={() => {
 								localStorage.token? 
+									user.accessType === "vendor"?
+									navigate(`/vendor/product/edit/${_id}`)
+									:
 									AddToCart(_id, name,from)
 								:
 									navigate(`/login${from}/${_id}`)
 							}}
 						>
 
-							ADD TO CART
+							{user.accessType === "vendor"? "EDIT" : "ADD TO CART" }
 						</Button>	
 				</Card.Body>
 			</Card>		

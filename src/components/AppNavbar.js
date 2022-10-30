@@ -1,14 +1,14 @@
-import { Col, Dropdown, Navbar, Nav, Container, NavDropdown, Row } from 'react-bootstrap'
+import { Col, Dropdown, Navbar, Nav, Container } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
-import {useState, useEffect, useContext} from 'react'
+import { useContext } from 'react'
 import UserContext from '../UserContext'
 import '../App.css'
 
 export default function AppNavbar(){
-	const {user, setUser} = useContext(UserContext)
+	const { user } = useContext(UserContext)
 
 	return (
-		<Container>
+		<Container className="px-0 mb-3">
 		<Col className=""  >
 			<Navbar expand="md" className="Navbar p-0" > {/*className="fixed-top"*/} 
 				<Navbar.Brand as={Link} to="/" className="col-2" >
@@ -31,26 +31,52 @@ export default function AppNavbar(){
 					<Nav.Link  className="navLinks" as={NavLink} to="/products" style={{color: "white"}}>Products</Nav.Link>
 
 					{ (user.id)?
+							
 						<>
-							<Nav.Link className="navLinks" as={NavLink} to="/cart" style={{color: "white"}}>Cart</Nav.Link>
-							<Dropdown>
-							    <Dropdown.Toggle variant="dark" id="dropdown-basic">
-							       Profile
-							    </Dropdown.Toggle>
+							{user.accessType !== "vendor"?
+								<>
+									<Nav.Link className="navLinks" as={NavLink} to="/cart" style={{color: "white"}}>Cart</Nav.Link>
+									<Dropdown>
+									    <Dropdown.Toggle variant="dark" id="dropdown-basic">
+									       Profile
+									    </Dropdown.Toggle>
 
-							    <Dropdown.Menu>
-							    	<Dropdown.Item as={NavLink} to="/orders">Orders</Dropdown.Item>
-							       <Dropdown.Item href="/logout">Logout</Dropdown.Item>
-							    </Dropdown.Menu>
-						    </Dropdown>
-						</>
+									    <Dropdown.Menu>
+									    	<Dropdown.Item as={NavLink} to="/orders">Orders</Dropdown.Item>
+									       <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+									    </Dropdown.Menu>
+								    </Dropdown>
+								</>
+							:
+								<>
+									<Nav.Link  
+										className="navLinks me-2" 
+										as={NavLink} to="/vendor/product/add" 
+										style={{color: "white"}}
+									>Add</Nav.Link>
+									<Dropdown>
+									    <Dropdown.Toggle variant="dark" id="dropdown-basic">
+									       Profile
+									    </Dropdown.Toggle>
+
+									    <Dropdown.Menu>
+									       <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+									    </Dropdown.Menu>
+								    </Dropdown>
+								</>
+							}
+
+
+					    </>
+					
 					:
 						<>
-							<Nav.Link className="navLinks" as={NavLink} to="/cart" >Cart</Nav.Link>
 							<Nav.Link className="navLinks" as={NavLink} to="/login">Login</Nav.Link>
 							<Nav.Link className="navLinks" as={NavLink} to="/register">Register</Nav.Link>
 						</>
 					}
+
+
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

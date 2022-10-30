@@ -1,6 +1,6 @@
 import OrdersAccordion from '../components/OrdersAccordion'
 import { useEffect, useState } from 'react'
-import { Row, Sonnet, Tab, Tabs } from 'react-bootstrap'
+import { Row, Tab, Tabs } from 'react-bootstrap'
 
 
 export default function Orders(){
@@ -50,10 +50,9 @@ export default function Orders(){
 			}
 
 		})
-	},[])
+	})
 
 	function renderOrders(func, status, arr){
-		console.log(status);
 		const filtered_by_status = arr.filter(array_mem => {
 				return array_mem.status === status
 			})
@@ -70,7 +69,7 @@ export default function Orders(){
 			  defaultActiveKey={key}
 			  onSelect={(selected_key) => setKey(selected_key)}
 			  className="mb-3"
-			  transition={false}
+	
 			>
 			  <Tab eventKey="pending" title="Pending">
 			    {pendingOrders}
