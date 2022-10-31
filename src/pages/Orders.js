@@ -63,7 +63,7 @@ export default function Orders(){
 
 	return (
 		<Row className="mt-3 mx-0">
-			<h1>Orders</h1>
+			<h1 classsName="pageTitle">Orders</h1>
 			<Tabs  className="orderTabs"
 			  id="orderTab"
 			  defaultActiveKey={key}

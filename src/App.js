@@ -9,6 +9,7 @@ import Orders from './pages/Orders'
 import Products from  './pages/Products'
 import ProductView from './components/ProductView'
 import Register from './pages/Register'
+import Review from './pages/Review'
 import Login from './pages/Login'
 import Logout from './pages/Logout'
 import ErrorPage from './pages/ErrorPage'
@@ -49,6 +50,7 @@ function App() { // function name should be the same as the fileName
               <Route path="/register/vendor" element={<Register type="vendor"/>}/>
               <Route path="/vendor/product/edit/:id" element={<EditProductView/>}/>
               <Route path="/vendor/product/add" element={<AddProductView/>}/>
+              <Route path="/review/:productId/add" element={<Review/>}></Route>
               </Routes>
           </Container>
         </Router>
