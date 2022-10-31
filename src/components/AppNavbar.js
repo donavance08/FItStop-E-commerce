@@ -30,7 +30,7 @@ export default function AppNavbar(){
 				<Nav className="ms-auto" style={{color: "white"}}>
 					<Nav.Link  className="navLinks" as={NavLink} to="/products" style={{color: "white"}}>Products</Nav.Link>
 
-					{ (user.id)?
+					{ (localStorage.token)?
 							
 						<>
 							{user.accessType !== "vendor"?
