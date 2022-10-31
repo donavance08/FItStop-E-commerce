@@ -15,6 +15,7 @@ export default  async function AddToCart(productId) {
 	})
 	.then(response => response.json())
 	.then(result => {
+
 		if(result.success){
 			Swal.fire({
 				title: "Success",

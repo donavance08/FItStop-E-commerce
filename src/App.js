@@ -37,7 +37,7 @@ function App() { // function name should be the same as the fileName
             <Routes>
               <Route path="*" element={<ErrorPage/>}/>
               <Route path="/" element={<Home/>}/>
-              <Route path="/cart" element={user.id? <Cart/> : <Login from="/cart"/>}/>
+              <Route path="/cart" element={localStorage.token? <Cart/> : <Login from="/cart"/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/login/:fromPage" element={<Login/>}/>
               <Route path="/login/:fromPage/:id" element={<Login/>}/>
