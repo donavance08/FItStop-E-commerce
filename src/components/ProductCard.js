@@ -20,12 +20,13 @@ export default function ProductCard(props){
 				<Card.Img onClick={() => navigate(`/products/${_id}`)} className="cardImg" variant="top" margin="auto" src={imageLink} />
 				<Card.Body className="d-flex flex-column">
 					<Card.Text 
+						className="mb-1"
 						width="100%"
 						onClick={() => navigate(`/products/${_id}`)}
 					>{name}</Card.Text>
 					<Card.Text className="productPrice mt-auto mb-0">PHP {price.toLocaleString('en-US')}</Card.Text>
 					
-						<span>{isAvailable? "In stock" : "Out of stock!"}</span>
+						<span className="mb-2">{isAvailable? "In stock" : "Out of stock!"}</span>
 						<Button 
 							disabled={!isAvailable}
 							className="btn btn-primary d-flex align-items-center justify-content-center" 

@@ -121,5 +121,10 @@ span{
 /* || ORDERS PAGE */
 
 .orderTitle{
-      font-family: ember, sans-serif;
+  font-family: ember, sans-serif;
+}
+
+.ordersImage{
+  height: 140px;
+  width:  140px;
 }
